@@ -1,23 +1,55 @@
-# Forecast Quant - An Algorithmic Trading System
-This project is a simple algorithmic day-trading engine built in Python. It focuses on fetching market data, generating buy/sell signals, and testing intraday trading logic. The goal is to build a reliable foundation for experimenting with trading strategies and eventually running them live. This repo is mainly for learning algo-trading concepts such as indicators, backtesting, and designing intraday trading rules. It will be improved over time as new ideas and strategies are developed.
+# Forecast Quant: Ensemble ML Trading System
+
+Forecast Quant is an end-to-end algorithmic trading engine designed for the Indian Banking Sector (NSE). Unlike traditional systems that rely solely on technical indicators, this project uses an Ensemble Machine Learning approach—combining Random Forest and XGBoost classifiers—to predict 5-minute price movements.
+
 # How It Works?
+The system follows a strict data-to-execution pipeline:
 
-  * Load live or historical market data
+Data Acquisition: Fetches real-time and historical 5-minute OHLCV data for major banking tickers (HDFCBANK, SBIN, ICICIBANK, etc.) via the yfinance API.
 
-  * Apply a chosen strategy to generate trading signals
+Feature Engineering: Transforms raw price data into predictive features, including SMA Crossovers, Momentum, and Log Returns.
 
-  * Evaluate how the strategy performs through simple backtesting
+Ensemble Modeling: Trains two separate ML models (Random Forest and XGBoost) to identify high-probability "Up" moves while ignoring market noise.
 
-  * Extend and refine the logic based on results
+Signal Validation: Only executes a "BUY" signal when both models agree (The Ensemble Rule), providing a built-in safety filter.
+
+Live Paper Trading: Runs a continuous loop that monitors the live market, manages virtual capital, and tracks real-time ROI.
 
 # Tech Stack
+Language: Python
 
-  * Python 3
+Data Science: pandas, numpy
 
-  * pandas, numpy
+Machine Learning: scikit-learn (Random Forest), xgboost (XGBoost)
 
-  * yfinance / broker API
+Financial Data: yfinance
 
-  * matplotlib
+# Project Structure
 
-  * scikit-learn
+get_data.py: Multi-ticker historical data downloader.
+
+features.py: Technical indicator generator and target labeling.
+
+train_models.py: Training script for the .pkl model files.
+
+backtest.py: Historical simulation engine to verify strategy ROI before going live.
+
+paper_trader.py: The main execution engine for real-time market monitoring.
+
+.env: Local configuration for tickers and capital.
+
+# Execution Order
+To run the project for the first time, execute the files in this specific order:
+
+python get_data.py (Downloads the raw data)
+
+python features.py (Creates the training dataset)
+
+python train_models.py (Generates the .pkl model files)
+
+python backtest.py (Checks historical performance)
+
+python paper_trader.py (Starts live monitoring)
+
+# Backtest Results
+On initial testing with HDFC Bank 5-minute data, the Random Forest model achieved a Final Portfolio Value of ₹113,043 from a starting capital of ₹100,000, representing a ~13% return over the test period.
