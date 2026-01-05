@@ -54,34 +54,6 @@ Machine learning models:
 
 ---
 
-## Repository Structure
-
-project/
-│
-├── data/
-│   ├── historical/        Historical 5-minute OHLCV CSV files
-│   └── signals/           Strategy-generated signal files
-│
-├── models/
-│   ├── rf_model.pkl       Trained Random Forest model
-│   └── xgb_model.pkl      Trained XGBoost model
-│
-├── src/
-│   ├── get_data.py        Download historical intraday data
-│   ├── features.py        Feature engineering
-│   ├── train_models.py    Train and evaluate ML models
-│   ├── trade_logic.py     Model-based signal generation
-│   ├── backtest.py        Historical backtesting
-│   ├── paper_trader.py    Live paper trading engine
-│   └── strategy_SMA.py    SMA crossover baseline strategy
-│
-├── .env.example           Example environment variables
-├── requirements.txt
-└── README.md
-
-
----
-
 ## Data Collection
 
 File: get_data.py
