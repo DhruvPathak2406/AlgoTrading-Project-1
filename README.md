@@ -1,55 +1,59 @@
-# Forecast Quant: Ensemble ML Trading System
+# 📈 Machine Learning–Driven Algorithmic Trading Bot (Indian Equity Markets)
 
-Forecast Quant is an end-to-end algorithmic trading engine designed for the Indian Banking Sector (NSE). Unlike traditional systems that rely solely on technical indicators, this project uses an Ensemble Machine Learning approach—combining Random Forest and XGBoost classifiers—to predict 5-minute price movements.
+## Project Overview
 
-# How It Works?
-The system follows a strict data-to-execution pipeline:
+This project implements an **end-to-end algorithmic trading system** for Indian equity markets using **machine learning–based signal generation**, technical indicators, and **paper trading on live market data**.
 
-Data Acquisition: Fetches real-time and historical 5-minute OHLCV data for major banking tickers (HDFCBANK, SBIN, ICICIBANK, etc.) via the yfinance API.
+The objective of this project is to demonstrate:
+- A complete quantitative trading pipeline
+- Feature engineering on intraday market data
+- Supervised ML model training for price direction prediction
+- Ensemble-based trade decision making
+- Live paper trading with real-time portfolio tracking
 
-Feature Engineering: Transforms raw price data into predictive features, including SMA Crossovers, Momentum, and Log Returns.
+Due to limited time for final validation and demonstration, **HDFCBANK (NSE)** was used as the primary stock for testing and live execution.  
+However, the system is **fully designed to support multiple stocks**, and historical data for several NSE banking stocks has been included in the repository.
 
-Ensemble Modeling: Trains two separate ML models (Random Forest and XGBoost) to identify high-probability "Up" moves while ignoring market noise.
+---
 
-Signal Validation: Only executes a "BUY" signal when both models agree (The Ensemble Rule), providing a built-in safety filter.
+## Markets & Instruments
 
-Live Paper Trading: Runs a continuous loop that monitors the live market, manages virtual capital, and tracks real-time ROI.
+- **Market**: Indian Equity Market (NSE)
+- **Primary Test Instrument**: `HDFCBANK.NS`
+- **Other Supported Stocks** (data available):
+  - ICICIBANK
+  - SBIN
+  - AXISBANK
+  - KOTAKBANK
+  - INDUSINDBK
+  - FEDERALBNK
+  - BANDHANBNK
+  - PNB
+  - BANKBARODA
+  - IDFCFIRSTB
+  - AUBANK
 
-# Tech Stack
-Language: Python
+> **Note**: HDFCBANK was used for dummy checking, debugging, and final live paper trading due to time constraints. The pipeline is generalizable and can be extended to other stocks by changing configuration variables.
 
-Data Science: pandas, numpy
+- **Timeframe**: 5-minute candles
+- **Execution Mode**: Paper Trading (Live market prices, simulated capital)
 
-Machine Learning: scikit-learn (Random Forest), xgboost (XGBoost)
+---
 
-Financial Data: yfinance
+## Tech Stack
 
-# Project Structure
+- **Language**: Python 3
+- **Libraries**:
+  - `pandas`, `numpy` – data manipulation
+  - `yfinance` – historical and live market data
+  - `scikit-learn` – Random Forest model
+  - `xgboost` – Gradient Boosted Trees
+  - `joblib` – model serialization
+- **ML Models Used**:
+  - Random Forest Classifier
+  - XGBoost Classifier
 
-get_data.py: Multi-ticker historical data downloader.
+---
 
-features.py: Technical indicator generator and target labeling.
+## Repository Structure
 
-train_models.py: Training script for the .pkl model files.
-
-backtest.py: Historical simulation engine to verify strategy ROI before going live.
-
-paper_trader.py: The main execution engine for real-time market monitoring.
-
-.env: Local configuration for tickers and capital.
-
-# Execution Order
-To run the project for the first time, execute the files in this specific order:
-
-python get_data.py (Downloads the raw data)
-
-python features.py (Creates the training dataset)
-
-python train_models.py (Generates the .pkl model files)
-
-python backtest.py (Checks historical performance)
-
-python paper_trader.py (Starts live monitoring)
-
-# Backtest Results
-On initial testing with HDFC Bank 5-minute data, the Random Forest model achieved a Final Portfolio Value of ₹113,043 from a starting capital of ₹100,000, representing a ~13% return over the test period.
