@@ -5,7 +5,7 @@ This project implements an algorithmic trading system for Indian equity markets 
 
 The goal of the project is to demonstrate a complete trading workflow, starting from raw market data and ending with live (paper) trade execution and portfolio performance tracking.
 
-Due to limited time for final validation and live demonstration, HDFCBANK (NSE) was used as the primary stock for dummy checking, debugging, and live paper trading. However, the overall pipeline is generic and supports multiple stocks. Historical data for several NSE banking stocks has been included in the repository to demonstrate scalability.
+Due to limited time for final validation and live demonstration, HDFCBANK (NSE), ICICIBANK (NSE) and KOTAKBANK (NSE) were used as the primary stocks for dummy checking, debugging, and live paper trading. However, the overall pipeline is generic and supports multiple stocks. Historical data for several NSE banking stocks has been included in the repository to demonstrate scalability.
 
 ---
 
@@ -14,13 +14,11 @@ Due to limited time for final validation and live demonstration, HDFCBANK (NSE) 
 Market: Indian Equity Market (NSE)
 
 Primary test stock (used for dummy check and live execution):
-- HDFCBANK.NS
+- HDFCBANK.NS,ICICIBANK.NS,KOTAKBANK.NS
 
 Other supported stocks (historical data available):
-- ICICIBANK
 - SBIN
 - AXISBANK
-- KOTAKBANK
 - INDUSINDBK
 - FEDERALBNK
 - BANDHANBNK
@@ -31,8 +29,6 @@ Other supported stocks (historical data available):
 
 Timeframe: 5-minute candles  
 Execution mode: Paper trading
-
-Note: HDFCBANK was used for final testing and live execution due to time constraints. Switching to other stocks only requires changing configuration values.
 
 ---
 
@@ -185,6 +181,20 @@ MODEL_XGB=xgb_model.pkl
 
 This allows easy customization of traded stocks, capital, timeframe, and model selection.
 
+## Storing the metrics and performance data
+
+File: metrics.py
+
+This script serves as a centralized metrics reporting utility for the project. It does not perform any training or backtesting. Instead, it loads previously generated model evaluation metrics and trading performance metrics that were saved during model training and historical paper trading.
+
+The script reads:
+
+model_metrics.pkl, which contains machine learning statistics such as precision and recall for the trained models.
+
+trading_metrics.pkl, which contains trading-related statistics such as initial capital, final portfolio value, net profit/loss, and total number of trades.
+
+Upon execution, the script prints all metrics in a clearly formatted manner to the console and also writes them to a metrics.txt file. This provides explicit, verifiable statistical evidence that the system performs as intended and satisfies the project submission requirement for quantitative performance metrics
+
 ---
 
 ## How to Run the Project
@@ -204,8 +214,15 @@ This allows easy customization of traded stocks, capital, timeframe, and model s
 5. Run backtesting:
    python src/backtest.py
 
-6. Start live paper trading:
+6. Run historical paper trading:
+   python src/historical_paper_trader.py
+
+7. Generate consolidated performance metrics:
+   python src/metrics.py
+
+8. Start live paper trading:
    python src/paper_trader.py
+
 
 ---
 
@@ -217,13 +234,6 @@ During backtesting and live paper trading, the following metrics are observed:
 - Number of trades executed
 - Real-time portfolio value
 
-Exact metrics are displayed during execution and demonstrated in the recorded project video.
+Exact metrics are displayed explicitly in the metrics.py file.
 
 ---
-
-## Contribution Guidelines
-
-1. Fork the repository
-2. Create a new feature branch
-3. Commit changes with clear messages
-4. Submit a pull request
